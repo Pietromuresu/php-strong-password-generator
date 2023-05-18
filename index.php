@@ -1,34 +1,59 @@
 <?php
 
 
-$pattern_special= "! ? & % $ < > ^ + - * / ( ) [ ] { } @ # _ = ";
-$pattern_numbers= range(0, 9);
-$min = 33;
-$max = 126;
+
+
 $max_length = $_GET['maxLength'] ?? null;
-function createPassword( $min, $max, $max_length, $pattern_special, $pattern_numbers){
+function createPassword( $max_length){
+
+
   $random_password = '';
-//   for ($i= 0; $i == $max_length - 1; $i++) {
-//     $random_password .= chr(rand($min, $max));
-//   }
 
-//  if(strlen($random_password) == $max_length ){
-//   foreach($pattern_numbers as $num){
+  $arrNum = [
+  "!?&%$<>^+-*/()[]{}@#_=",
+  '1234567890',
+  'qwertyuiopasdfghjklzxcvbnm',
+  'QWERTYUIOPASDFGHJKLZXCVBNM', 
 
-//   }
-//  } 
+];
+
+
+while(strlen($random_password)< $max_length){      
+    $index = rand(0, 3);
+  $random_password .= substr($arrNum[$index], rand(0, strlen($arrNum[$index])), 1) ;
+  
+  if($index > strlen($arrNum[$index]))     
+  $index = 0;
+  }
+  $random_password = str_shuffle($random_password);
+  
+return $random_password;
+
+
+
+ } 
   
 //   return $random_password;
-    
-  do{
-    $random_password = '';
-    for ($i= 0; $i <= $max_length - 1; $i++) {
-    $random_password .= chr(rand($min, $max));
-    }
-  }while(str_contains($random_password, $pattern_numbers) && str_contains($random_password, $pattern_special) && strtoupper($random_password) == $random_password );
 
-  return $random_password;
-}
+// foreach ($verify as $value) {
+//   if(str_contains($value, $pattern_numbers)){
+//     $isNumbered = true;
+//   }else {
+//     $isNumbered = false;
+//     var_dump($isNumbered);
+//   }
+//   var_dump(str_contains($value, $pattern_numbers));
+// }
+    
+//   do{
+//     $random_password = '';
+//     for ($i= 0; $i <= $max_length - 1; $i++) {
+//     $random_password .= chr(rand($min, $max));
+//     }
+//   }while(str_contains($random_password, $pattern_numbers) && str_contains($random_password, $pattern_special) && strtoupper($random_password) == $random_password );
+
+//   return $random_password;
+// }
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +73,7 @@ function createPassword( $min, $max, $max_length, $pattern_special, $pattern_num
     
     <h1 class="w-100">Your Password is: </h1> <br>
 
-    <h3><?php echo createPassword( $min , $max, $max_length, $pattern_numbers,$pattern_special )?></h3>
+    <h3><?php echo createPassword(  $max_length )?></h3>
   <?php else:?>
     <form action="index.php" method='GET'>
 
